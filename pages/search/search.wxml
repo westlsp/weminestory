@@ -1,0 +1,173 @@
+<view class="container">
+  <wux-toptips id="wux-toptips" />
+    <!--<view class="click_zan" catchtap='click_zanok'>
+       赞
+    </view>-->
+    <!--<image src="../image/qqq.jpg" class="click_zan" catchtap='click_zanok'></image>
+    <image src="../image/qqq.jpg" class="click_xianqing" catchtap='click_xianqingok'></image>-->
+    <wux-fab-button position="topRight" theme="calm" direction="vertical" reverse="{{trues}}" spaceBetween="5" buttons="{{buttons}}" bind:click="fabbtns"/>
+
+    <!--<view class="gongneng {{jiantou_ami}}">
+      <icon class="iconfont {{jiantou}}" size='40' catchtap='yichu_gongn'></icon>
+       <image src="../image/qqq.jpg" class="gongneng_img" catchtap='save_clk' wx:if="{{tiaozhuan || fuyizhuan || fuyi_xu || yuan_xu}}"></image>
+      <image src="../image/qqq.jpg" class="gongneng_img" catchtap='xihuan_clk'></image>
+      <image src="../image/qqq.jpg" class="gongneng_img" catchtap='fuyi_clk' wx:if="{{fuyi_content==null && !jubao_clk && !wanjiefou && !xushizhong && !toupiao}}"></image>
+      <image src="../image/qqq.jpg" class="gongneng_img" catchtap='jubao_clk'></image>
+      <image src="../image/qqq.jpg" class="gongneng_img" catchtap="click_zan"></image>
+      <image src="../image/qqq.jpg" class="gongneng_img" catchtap='click_xianqingok'></image>
+    </view>-->
+    
+    <!--<image src="../image/qqq.jpg" class="toupiao_n" wx:if="{{toupiao_man && wanjiefou}}" catchtap="chakan_toupiao"></image>-->
+    <!--<image src="../image/qqq.jpg" class="mingming_n" wx:if="{{toupiao_man && wanjiefou}}" catchtap="mingming_gm"></image>-->
+    <wux-icon type="ios-stats"  size='36' color="blue" class="toupiao_n" wx:if="{{toupiao_man && wanjiefou}}" catchtap="chakan_toupiao"/>
+    <wux-icon type="md-create"  size='36' color="red" class="mingming_n" wx:if="{{toupiao_man && wanjiefou}}" catchtap="mingming_gm"/>
+    <view class="xianqing_ye" wx:if="{{xiaochuankou}}">
+      <icon class="cancelico" type="cancel" size="26" color='black' catchtap='cancel_ok'></icon>
+      <view class="xianqing_top">
+        <view class="xianqing_tleft">作品号:{{shuju.numstory}}</view>
+        <view class="xianqing_tmid" wx:if="{{wanjiefou}}">作品名:{{shuju.storyname}}</view>
+        <view class="xianqing_tright">类型:{{shuju.storytype}}</view>
+      </view>
+      <view class="xianqing_bottom">前言:{{shuju.storysoso}}</view>
+    </view>
+    <view class="mingming_gm" wx:if="{{mingming_kou}}">
+        <icon class="cancelico" type="cancel" size="26" color='black' catchtap='cancel_ok1'></icon>
+        <view class="mingming_k" wx:if="{{toupiao_man && !yijing_mingming}}">
+            <input type='text' bindinput='mingming_func'></input>
+            <button catchtap="mingming_sumit">提交名字</button>
+        </view>
+        <view class="mingming_k" wx:if="{{toupiao_man && yijing_mingming}}">
+            <input type='text' bindinput='mingming_func' disabled='true'></input>
+            <button catchtap="mingming_sumit" disabled='true'>已经提交</button>
+        </view>
+    </view>
+
+    <block wx:if="{{!tiaozhuan && !wanjiefou && !fuyizhuan}}">
+    <view class="header">
+      <view class="storycontent">
+        <block wx:for="{{wenneiarray}}" wx:for-item="array" wx:key="num">
+          <view class="array_item">
+            <text space="nbsp">{{array}}</text>
+            <!--<block wx:if="{{wenneiarray.length-1==index && fuyi_content==null && !jubao_clk}}">
+                <view catchtap='fuyi_clk' >复议</view>
+                 <view catchtap='jubao_clk'>举报</view>
+               </block>-->
+            <view wx:if="{{wenneiarray.length-1==index && fuyi_content!=null && !jubao_clk}}" catchtap='yuan_xu' class="xuci">续此</view>
+          </view>
+         </block>
+         <text wx:if="{{fuyi_content!=null}}" space="nbsp">{{fuyi_content}}</text>
+         <view wx:if="{{fuyi_content!=null}}" catchtap='fuyi_xu' class="xuci">续此</view>
+      </view> 
+    </view>
+    </block>
+
+
+    <block wx:elif="{{!tiaozhuan && wanjiefou && !fuyizhuan}}">
+    <view class="header">
+      <!--<text>{{shuju.storyname}}</text>
+      <text>{{shuju.numstory}}</text>
+      <text>{{shuju.storytype}}</text>
+      <text>{{shuju.storysoso}}</text>-->
+      <view class="storycontent">
+        <block wx:for="{{wenneiarray}}" wx:for-item="array" wx:key="num">
+          <view class="array_item">
+            <text space="nbsp">{{array}}</text>
+          </view>
+         </block>
+      </view>
+      <!--<view class="mingming" wx:if="{{toupiao_man && !yijing_mingming}}">
+        <input type='text' bindinput='mingming_func'></input>
+        <button catchtap="mingming_sumit">提交名字</button>
+      </view>
+      <view class="mingming" wx:if="{{toupiao_man && yijing_mingming}}">
+        <input type='text' bindinput='mingming_func' disabled='true'></input>
+        <button catchtap="mingming_sumit" disabled='true'>已经提交</button>
+      </view>-->
+      <!--<view class="toupiao_sum" wx:if="{{toupiao_man}}">
+        <button catchtap="chakan_toupiao">查看投票</button>
+      </view>-->
+    </view>
+    </block>
+    <block  wx:elif="{{tiaozhuan && !wanjiefou && !fuyizhuan && !fuyi_xu && !yuan_xu}}">
+      <view class="header">
+      <form bindsubmit='xushi_success' class="form">
+          <view class="form_nei">
+            <textarea name="neirong" class="ne_rong" bindblur='losefocus' value="{{content}}"></textarea>
+            <!--<view class="xushi_success" catchtap='xushi_success'>完成续事</view>-->
+            <button class="xushi_success" form-type="submit" >提交续事</button>
+          </view>
+      </form>
+      </view>  
+        
+    </block>
+
+
+    <block  wx:elif="{{tiaozhuan && !wanjiefou && !fuyizhuan && yuan_xu}}">
+      <view class="header">
+      <form bindsubmit='xushi_success3' class="form">
+        <view class="form_nei">
+            <textarea name="neirong" class="ne_rong" bindblur='losefocus' value="{{content}}" ></textarea>
+            <!--<view class="xushi_success" catchtap='xushi_success'>完成续事</view>-->
+            <button class="xushi_success" form-type="submit">提交续事</button>
+            </view>
+      </form>
+      </view>  
+        
+    </block>
+    <block  wx:elif="{{tiaozhuan && !wanjiefou && !fuyizhuan && fuyi_xu}}">
+      <view class="header">
+      <form bindsubmit='xushi_success2' class="form">
+        <view class="form_nei">
+            <textarea name="neirong" class="ne_rong" bindblur='losefocus' value="{{content}}"></textarea>
+            <!--<view class="xushi_success" catchtap='xushi_success'>完成续事</view>-->
+            <button class="xushi_success" form-type="submit">提交续事</button>
+            </view>
+      </form>
+      </view>  
+        
+    </block>
+    <block  wx:elif="{{tiaozhuan && !wanjiefou && fuyizhuan}}">
+      <view class="header">
+      <form bindsubmit='xushi_success1' class="form">
+        <view class="form_nei">
+            <textarea name="neirong" class="ne_rong" bindblur='losefocus' value="{{content}}"></textarea>
+            <!--<view class="xushi_success" catchtap='xushi_success'>完成续事</view>-->
+            <button class="xushi_success" form-type="submit">提交续事</button>
+            </view>
+      </form>
+      </view>  
+        
+    </block>
+    <block wx:if="{{!tiaozhuan && !wanjiefou && xushizhong && !toupiao && !toupiao_man && !toupiao_finish && !jubao_clk}}">
+        <view class="footer" bindtap='zaixushi'>正在续事</view>
+    </block>
+    <block wx:elif="{{!tiaozhuan && !wanjiefou && !xushizhong && !toupiao && !toupiao_man && !toupiao_finish && !jubao_clk}}">
+        <view class="footer" bindtap='xushitiaozhuan'>续事</view>
+    </block>
+     <block wx:elif="{{jubao_clk}}">
+        <view class="footer">被举报</view>
+    </block>
+    <block wx:elif="{{!tiaozhuan && wanjiefou && !xushizhong && toupiao && !jubao_clk}}">
+        <view class="footer">已完结</view>
+    </block>
+    <block wx:elif="{{!tiaozhuan && !wanjiefou && !xushizhong && toupiao && !toupiao_man && !toupiao_finish && !jubao_clk}}">
+        <view class="footer">投票中</view>
+    </block>
+    <block wx:elif="{{!tiaozhuan && !wanjiefou && !xushizhong && toupiao && toupiao_man && !toupiao_finish && !jubao_clk}}">
+        <view class="footer">
+            <view  catchtap='toupiao' class="toupiao_css">赞成</view>
+            <view class="toupiao_css">反对</view>
+        </view>
+    </block>
+    <block wx:elif="{{!tiaozhuan && !wanjiefou && !xushizhong && toupiao && toupiao_man && toupiao_finish && !jubao_clk}}">
+        <view class="footer">已投票</view>
+    </block>
+
+
+    <block wx:elif="{{tiaozhuan && !wanjiefou && !xushizhong && !toupiao && !toupiao_man && !toupiao_finish && !jubao_clk}}">
+        <view class="footer">
+            <view class="wanjie" bindtap='wanjie_toupiao'>完结</view>
+            <view bindtap='fanhuitiaozhuan' class="fanhui">返回</view>
+        </view>
+    </block>
+</view>

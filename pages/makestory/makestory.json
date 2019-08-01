@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "创事",
+  "usingComponents": {
+    "wux-fab-button": "../../dist/fab-button/index",
+    "wux-button": "../../dist/button/index",
+    "wux-toptips": "../../dist/toptips/index"
+  }
+}

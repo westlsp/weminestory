@@ -1,0 +1,436 @@
+<view class="container">
+  <view class="header">
+    <view class="icon_border">
+        <!--<image bindtap="bindViewTap1" class="icon_mine" src="{{userInfo.avatarUrl}}" background-size="cover"></image>-->
+        
+        <view  class="icon_mine" catchtap="bindViewTap1">
+          <open-data type="userAvatarUrl" class="icon_mine_pic"></open-data>
+        </view>
+    </view> 
+    <view class="search">
+      <view class="search_contain" animation="{{input_ami}}">
+        <input type="text" name="search_value"  bindinput='inputtextfunc' bindfocus="text_focus" 
+        bindblur="text_blur"  placeholder="输入作品号/类型/作品名" confirm-type="search" cursor='10' bindconfirm="searchBtn"></input>
+      </view>
+        <icon class = "search_icon" type="search" size="26" color="white" catchtap='sousuo'/>
+      </view>
+    <view class="honor">
+        <image class="honor_icon" src="{{msgall.chenghao}}" wx:if="{{loading_success}}"></image>
+        <wux-spin wux-class="spin" class="honor_icon" wx:else/>
+    </view>
+  </view>
+
+  <!------------------------------------------------------------------------header_yuan-->
+
+  <block wx:if="{{!tiaozhuan && !dxtiaozhuan && !minestory && !msgcall}}">
+  <view class="midder">
+      <block wx:if="{{!xihuan_call && !daixu_call}}">
+      <wux-notice-bar class="notice_loop" loop content="该小程序还有bug!!!AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+      <view class="chuangshi_btn_wai">
+          <view class="chuangshi_btn btnstyle" catchtap="chuangshifunc">创事</view>
+      </view>
+      <view class="xushi_btn_wai">
+          <view class="xushi_btn btnstyle" catchtap="xushifunc">读续事</view>  
+      </view>
+      <view class="xihuan_btn_wai">
+          <view class="xihuan_btn" catchtap="xihuanfunc">我的喜欢</view> 
+      </view>
+      <view class="daixu_btn_wai">
+          <view class="daixu_btn" catchtap="daixufunc">未完待续</view> 
+      </view>
+      </block>
+      <block wx:elif="{{xihuan_call}}">
+           <view wx:if="{{arrays.length==0}}" class="like_none">
+                <wux-icon type="md-book" size='50' color='#999999'/>
+                还没有你喜欢的
+           </view>
+           <block wx:for="{{arrays}}" wx:for-item="array" wx:key="num">
+            <view class="array_item" bindtap='chakan2' data-numstory='{{array.numstory}}'>
+              <view class="list_left">
+            <view class="list_left_top">
+            <view >作品号</view>
+            {{array.numstory}}
+            </view>
+            <view class="list_left_bottom">
+            <view>类型</view>
+            {{array.storytype}}
+            </view>
+            </view>
+            <view class="clk_sousuo_storyname" wx:if="{{array.boolfinish==1 && array.storyname!='' && array.storyname!=null}}">
+            {{array.storyname}}
+            </view>
+            <view class="list_right">
+            <view>前言:</view>
+            {{array.storysoso}}
+            </view>
+            <view class="clk_sousuo_wan" wx:if="{{array.boolfinish==1}}">
+            完
+            </view>
+            
+            <view class="clk_sousuo_ck">
+            点击查看
+            </view>
+            </view>
+          </block>
+          </block>
+
+          <block wx:elif="{{daixu_call}}">
+           <view wx:if="{{arrays.length==0}}" class="daixu_none">
+                <wux-icon type="md-book" size='50' color='#999999'/>
+                多去翻阅一下
+           </view>
+           <block wx:for="{{arrays}}" wx:for-item="array" wx:key="num">
+            <view class="daixu_item">
+                <view class="daixu_item_num">
+                    继续作品号为{{array.numstory}}的作品写作
+                </view>
+                <view class="daixu_item_btn">
+                  <view class="daixu_item_btnl" catchtap='chakan2' data-numstory='{{array.numstory}}'>
+                      继续
+                  </view>
+                  <view class="daixu_item_btnr" catchtap='schu_btn' data-numstory='{{array.numstory}}'>
+                      删除
+                  </view>
+                </view>
+            </view>
+            </block>
+          </block>
+  </view>
+  </block>
+  <!---------------------------------------------midder_footer_yuan-->
+
+  <block wx:elif="{{tiaozhuan}}">
+    <view class="search_jiemian">
+      <block wx:for="{{arrays}}" wx:for-item="array" wx:key="num">
+          <view class="array_item" bindtap='chakan1' data-numstory='{{array.numstory}}'>
+          <view class="list_left">
+            <view class="list_left_top">
+            <view >作品号</view>
+            {{array.numstory}}
+            </view>
+            <view class="list_left_bottom">
+            <view>类型</view>
+            {{array.storytype}}
+            </view>
+          </view>
+            <view class="clk_sousuo_storyname" wx:if="{{array.boolfinish==1 && array.storyname!='' && array.storyname!=null}}">
+            {{array.storyname}}
+            </view>
+            <view class="list_right">
+            <view>前言:</view>
+            {{array.storysoso}}
+            </view>
+            <view class="clk_sousuo_wan" wx:if="{{array.boolfinish==1}}">
+            完
+            </view>
+            
+            <view class="clk_sousuo_ck">
+            点击查看
+            </view>
+          </view>
+      </block>
+      <view class="list_bottom">
+      没有更多结果...
+      </view>
+    </view>
+    <!--<view class="back" bindtap='backcall'>
+    <icon class="iconfont icon-zuojiantou"></icon>
+      返回
+    </view>-->
+  </block>
+
+  <!-------------------------------------------------搜索界面-->
+  <block wx:elif="{{dxtiaozhuan && !minestory && !msgcall}}">
+    <view class="dxjiemian">
+        <scroll-view class="xustory_jiemian"  bindscrolltolower="shuaxin_clk" scroll-y lower-threshold="1">
+          
+          <block wx:for="{{arrays}}" wx:for-item="array" wx:key="num">
+                <view class="array_item" bindtap='chakan2' data-numstory='{{array.numstory}}'>
+              <view class="list_left">
+                <view class="list_left_top">
+                    <view >作品号</view>
+                    {{array.numstory}}
+                </view>
+                <view class="list_left_bottom">
+                    <view>类型</view>
+                    {{array.storytype}}
+                </view>
+              </view>
+            <view class="clk_sousuo_storyname" wx:if="{{array.boolfinish==1 && array.storyname!='' && array.storyname!=null}}">
+                {{array.storyname}}
+            </view>
+
+            <view class="list_right">
+                <view>前言:</view>
+                {{array.storysoso}}
+            </view>
+            <view class="clk_sousuo_wan" wx:if="{{array.boolfinish==1}}">
+               完
+            </view>
+            <view class="clk_sousuo_ck">
+            点击查看
+            </view>
+            </view>
+          </block>
+
+        </scroll-view>
+        <image class="shuaxin_clk {{shuaxin_ami}}" catchtap='shuaxin_clk' src="../image/tongyong.jpg"></image>
+      </view>
+      <!--<view class="back" bindtap='backcall'>
+      <icon class="iconfont icon-zuojiantou"></icon>
+      返回
+      </view>-->
+  </block>
+<!-----------------------------------------------------------读续事-->
+  <block wx:elif="{{!dxtiaozhuan && minestory && !msgcall}}">
+      <view class="storymine_sub">
+          <block wx:if="{{!chuang_shi_call && !xu_shi_call && !wan_shi_call}}">
+          <view class="chuang_shi xx_shi" bindtap='chuang_shi_func'>
+              自创故事
+          </view>
+          <view class="xu_shi xx_shi" bindtap='xu_shi_func'>
+              续他故事
+          </view>
+          <view class="wan_shi xx_shi" bindtap='wan_shi_func'>
+              完结故事
+          </view>
+          <view>
+
+          </view>
+          </block>
+          
+          <block wx:elif="{{chuang_shi_call}}">
+           <block wx:for="{{arrays}}" wx:for-item="array" wx:key="num">
+            <view class="array_item" bindtap='chakan2' data-numstory='{{array.numstory}}'>
+              <view class="list_left">
+            <view class="list_left_top">
+            <view >作品号</view>
+            {{array.numstory}}
+            </view>
+            <view class="list_left_bottom">
+            <view>类型</view>
+            {{array.storytype}}
+            </view>
+            </view>
+            <view class="clk_sousuo_storyname" wx:if="{{array.boolfinish==1 && array.storyname!='' && array.storyname!=null}}">
+            {{array.storyname}}
+            </view>
+            <view class="list_right">
+            <view>前言:</view>
+            {{array.storysoso}}
+            </view>
+            <view class="clk_sousuo_wan" wx:if="{{array.boolfinish==1}}">
+            完
+            </view>
+            
+            <view class="clk_sousuo_ck">
+            点击查看
+            </view>
+            </view>
+          </block>
+          </block>
+          
+          <block wx:elif="{{xu_shi_call}}">
+            <block wx:for="{{arrays}}" wx:for-item="array" wx:key="num">
+            <view class="array_item" bindtap='chakan2' data-numstory='{{array.numstory}}'>
+              <view class="list_left">
+            <view class="list_left_top">
+            <view >作品号</view>
+            {{array.numstory}}
+            </view>
+            <view class="list_left_bottom">
+            <view>类型</view>
+            {{array.storytype}}
+            </view>
+            </view>
+            <view class="clk_sousuo_storyname" wx:if="{{array.boolfinish==1 && array.storyname!='' && array.storyname!=null}}">
+            {{array.storyname}}
+            </view>
+            <view class="list_right">
+            <view>前言:</view>
+            {{array.storysoso}}
+            </view>
+            <view class="clk_sousuo_wan" wx:if="{{array.boolfinish==1}}">
+            完
+            </view>
+            
+            <view class="clk_sousuo_ck">
+            点击查看
+            </view>
+            </view>
+          </block>
+          </block>
+          <block wx:elif="{{wan_shi_call}}">
+            <block wx:for="{{arrays}}" wx:for-item="array" wx:key="num">
+            <view class="array_item" bindtap='chakan2' data-numstory='{{array.numstory}}'>
+              <view class="list_left">
+            <view class="list_left_top">
+            <view >作品号</view>
+            {{array.numstory}}
+            </view>
+            <view class="list_left_bottom">
+            <view>类型</view>
+            {{array.storytype}}
+            </view>
+            </view>
+            <view class="clk_sousuo_storyname" wx:if="{{array.boolfinish==1 && array.storyname!='' && array.storyname!=null}}">
+            {{array.storyname}}
+            </view>
+            <view class="list_right">
+            <view>前言:</view>
+            {{array.storysoso}}
+            </view>
+            <view class="clk_sousuo_wan" wx:if="{{array.boolfinish==1}}">
+            完
+            </view>
+            
+            <view class="clk_sousuo_ck">
+            点击查看
+            </view>
+            </view>
+          </block>
+          </block>
+      </view>
+      <!--<view class="footer">
+        
+        <view class="message nav_footer" bindtap="msgfunc">消息通知</view>
+
+        <view class="storytime nav_footer" bindtap="backcall" wx:if="{{!chuang_shi_call && !xu_shi_call && !wan_shi_call}}">返回</view>
+        <view class="storytime nav_footer" bindtap="backcall_shi" wx:else>返回</view>
+      </view>-->
+  </block>
+  <!-------------------------------------------------------------------------故事生涯-->
+  <block wx:elif="{{!dxtiaozhuan && !minestory && msgcall}}">
+      <view class="msgcall_sub">
+          <block wx:if="{{shuaxin_zan}}">
+          <view class="zan_msg">
+              <view class="zan_msg_text">
+                 有{{shuaxin_zanshu}}人给你点了赞
+              </view>
+              <view class="zan_msg_btn">
+                <view bindtap='zanmsg_btn'>已读</view>
+              </view>
+          </view>
+          </block>
+          <block wx:if="{{shuaxin_xushi}}">
+            <block wx:for="{{xu_shi_msg}}" wx:for-item="array" wx:key="num">
+            <view class="xushi_msg_msg">
+              <view class="xushi_msg_msg_text">
+                {{array}} 给有你参与的作品号为{{xu_shi_nummsg[index]}}的作品进行了续写
+              </view>
+              <view class="xushi_msg_msg_btn">
+                  <view catchtap='xushi_msg_btn' data-index="{{index}}" class="xushi_msg_yidu">已读</view>
+                  <view catchtap='xushi_chakan_btn' data-index="{{index}}" class="xushi_msg_cx">查看详情</view>
+              <!--<input type="text" bindinput='search_numb' value="{{array.numstory}}" disabled='true'></input>-->
+              </view>
+            </view>
+          </block>
+          </block>
+          <block wx:if="{{shuaxin_finish}}">
+            <block wx:for="{{story_finsih_msg}}" wx:for-item="array" wx:key="num">
+            <view class="finish_msg_msg">
+              <view class="xushi_msg_msg_text">
+                  {{array}} 给你创作的作品号为{{story_finsih_nummsg[index]}}的作品进行了续写
+              </view>
+              <view class="xushi_msg_msg_btn">
+                  <view catchtap='finish_msg_btn' data-index="{{index}}" class="xushi_msg_yidu">已读</view>
+                  <view catchtap='finish_chakan_btn' data-index="{{index}}" class="xushi_msg_cx">查看详情</view>
+              <!--<input type="text" bindinput='search_numb' value="{{array.numstory}}" disabled='true'></input>-->
+              </view>
+            </view>
+          </block>
+          </block>
+          <block wx:if="{{shuaxin_wanjie}}">
+          <block wx:for="{{wan_jie_msg}}" wx:for-item="array" wx:key="num">
+            <view class="wanjie_msg_msg">
+              <view class="wanjie_msg_msg_text">
+                  <view class="wanjie_msg_msg_text_top">
+                      有你参与的作品号为{{array}}的作品,发起了完结投票
+                  </view>
+                  <view class="wanjie_msg_msg_text_bottom">
+                    <view class="wanjie_msg_msg_text_left">
+                       截止时间:{{toupiao_arrsum[index]}}
+                    </view>
+                     <view class="wanjie_msg_msg_text_right">
+                       剩余时间:{{toupiao_arrfen[index].day}}天 {{toupiao_arrfen[index].hour}}时{{toupiao_arrfen[index].min}}分{{toupiao_arrfen[index].second}}秒
+                    </view>
+                  </view>
+              </view>
+              <view class="wanjie_msg_msg_btn">
+                  <view class="wanjie_msg_msg_btn_top">
+                      <view class="wanjie_msg_msg_btn_tt">快捷投票</view>
+                      <view class="wanjie_msg_msg_btn_tb">
+                          <view class="wanjie_msg_msg_btn_tbl">
+                              是
+                          </view>
+                          <view class="wanjie_msg_msg_btn_tbr">
+                              否
+                          </view>
+                      </view> 
+                  </view>
+                  <view class="wanjie_msg_msg_btn_bottom" catchtap='toupiao' data-index="{{index}}">查看再投票</view>
+              </view>
+            </view>
+          </block>
+          </block>
+          <block wx:if="{{shuaxin_name}}">
+          <block wx:for="{{name_msg}}" wx:for-item="array" wx:key="num">
+            <view class="name_msg">
+              <view class="wanjie_msg_msg_text">
+                  <view class="wanjie_msg_msg_text_top">
+                      有你参与的作品号为{{array}}的作品,投票结束，开始命名
+                  </view>
+                  <view class="wanjie_msg_msg_text_bottom">
+                    <view class="wanjie_msg_msg_text_left">
+                       截止时间:{{mingname_arrsum[index]}}
+                    </view>
+                     <view class="wanjie_msg_msg_text_right">
+                       剩余时间:{{mingname_arrfen[index].day}}天 {{mingname_arrfen[index].hour}}时{{mingname_arrfen[index].min}}分{{mingname_arrfen[index].second}}秒
+                    </view>
+                  </view>
+              </view>
+              <view class="wanjie_msg_msg_btn">
+                  <view class="wanjie_msg_msg_btn_top">
+                      <view class="wanjie_msg_msg_btn_tt">快捷命名</view>
+                      <view class="wanjie_msg_msg_btn_tb">
+                          <view class="wanjie_msg_msg_btn_inp">
+                              <input></input>
+                          </view>
+                          <view class="wanjie_msg_msg_btn_tbr">
+                              Ok
+                          </view>
+                      </view> 
+                  </view>
+                  <view class="wanjie_msg_msg_btn_bottom" catchtap='mingming' data-index="{{index}}">查看再命名</view>
+              </view>
+            </view>
+          </block>
+          </block>
+      </view>
+      <!--<view class="footer">
+        <view class="storytime nav_footer" bindtap="storyfunc">故事生涯</view>
+        <view class="message nav_footer" bindtap="backcall">返回</view>
+        
+      </view>-->
+  </block>
+   <view class="footer">
+       <wux-tabbar defaultCurrent="tab1" class="footer_all" theme='positive'>
+            <wux-tabbar-item key="tab1" title="首页" bind:click='shouyefunc'>
+                <wux-icon wux-class="icon" type="md-cube" size="22" slot="icon-on" />
+                <wux-icon wux-class="icon" type="md-cube" size="22" slot="icon-off" />
+            </wux-tabbar-item>
+            <wux-tabbar-item key="tab2" title="生涯" bind:click='storyfunc'>
+                <wux-icon wux-class="icon" type="md-home" size="22" slot="icon-on" />
+                <wux-icon wux-class="icon" type="md-home" size="22" slot="icon-off" />
+            </wux-tabbar-item>
+            <wux-tabbar-item key="tab3" title="消息" bind:click='msgfunc'>
+                <wux-badge count="{{msg_ico}}" slot="icon-on">
+                    <wux-icon wux-class="icon" type="md-chatboxes" size="22"/>
+                </wux-badge>
+                <wux-badge count="{{msg_ico}}" slot="icon-off">
+                    <wux-icon wux-class="icon" type="md-chatboxes" size="22" />
+                </wux-badge>
+            </wux-tabbar-item>
+        </wux-tabbar>
+    </view>
+</view>

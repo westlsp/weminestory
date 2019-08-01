@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "故事",
+  "usingComponents": {
+    "wux-fab-button": "../../dist/fab-button/index",
+    "wux-button": "../../dist/button/index",
+    "wux-toptips": "../../dist/toptips/index",
+    "wux-icon": "../../dist/icon/index"
+  }
+}

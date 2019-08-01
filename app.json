@@ -1,0 +1,25 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/test/test",
+    "pages/logs/logs",
+    "pages/toupiao/toupiao",
+    "pages/search/search",
+    "pages/personmsg/personmsg",
+    "pages/makestory/makestory",
+    "pages/dialog/dialog",
+    "pages/testtt/testtt"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#B9CFF3",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": false
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "debug": true
+}

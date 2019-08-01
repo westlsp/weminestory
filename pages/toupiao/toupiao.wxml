@@ -1,0 +1,23 @@
+<view class="container">
+    <view class="header">
+        作品号:{{zuopinnum}}
+    </view>
+    <view class="midder">
+        <block wx:for="{{toupiao_sum}}" wx:for-item="array" wx:key="num">
+          <view class="toupiao_item">
+            <view class="item_text">
+              <text space="nbsp">{{array.name}}   票数:{{array.zan}}</text>
+            </view>
+            <view class="item_btn">
+                <view class="mine_btn" catchtap='toupiao_btn' data-openid="{{array.openid}}" wx:if="{{openid==array.openid}}">投票</view>
+                <view catchtap='toupiao_btn' data-openid="{{array.openid}}" wx:else>投票</view>
+            </view>
+            <!--<button catchtap='toupiao_btn' data-openid="{{array.openid}}" disabled='true' wx:if="{{openid==array.openid}}">给他投票</button>
+            <button catchtap='toupiao_btn' data-openid="{{array.openid}}" wx:else>给他投票</button>-->
+          </view>
+         </block>
+    </view>
+    <view class="footer">
+        返回
+    </view>
+</view>

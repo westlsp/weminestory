@@ -1,0 +1,29 @@
+<view class="container">
+    <wux-toptips id="wux-toptips" />
+    <wux-fab-button position="bottomRight" theme="calm" direction="vertical" reverse="{{falses}}" spaceBetween="5" buttons="{{buttons}}" bind:click="fabbtns"/>
+    <view class="header">
+        <form bindsubmit="formSubmit" class="form">
+          <view class="form_nei">
+            <view class="leixing">
+              <label for="leixing" class="leixing_label">类型</label>
+              <picker id="leixing" name="leixing" bindchange='bindPickerChange' mode="selector" range="{{leixingshuju}}" value="{{index}}">{{leixingshuju[index]}}</picker>
+            </view>
+            <view class="wengai">
+              <label for="wengai" class="wengai_label">前言</label>
+               <view class="wengai_wai">
+                  <textarea id="wengai" name="wengai" maxlength="150" placeholder='限150个字内' bindblur='weigaiblur' value="{{wengai}}" ></textarea>
+               </view>
+            </view>
+            <view class="wennei">
+              <label for="wennei" class="wennei_label">初篇</label>
+              <view class="wennei_wai">
+              <textarea id="wennei" name="wennei" maxlength="400" placeholder='限400个字内' bindblur='weineiblur' value="{{wennei}}" ></textarea>
+              </view>
+            </view>
+            <view class="footer_btn">
+              <button class="btn_login"  formType="submit">完成创世</button>
+            </view>
+          </view>
+        </form>
+    </view>
+</view>

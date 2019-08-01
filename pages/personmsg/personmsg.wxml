@@ -1,0 +1,62 @@
+<view class="container">
+  <wux-toptips id="wux-toptips" />
+  <canvas canvas-id='customCanvas' class="test"></canvas>
+  <view class="header" catchtap='back_change' style="background:url({{back_user}});background-size:100% 100%;">
+    <view class="header_left">
+        <view class="icon_user">
+            <open-data type="userAvatarUrl" class="icon_user_pic"></open-data>
+        </view>
+    </view>
+    <view class="header_right">
+      <view class="headerri_top">
+          <open-data type="userNickName" class="name" style="color:{{text_color}}"></open-data>
+      </view>
+      <view class="headerri_bottom">
+        <view class="ge_qian">
+          <textarea value="{{msgall.geqian}}" maxlength='20' name="geqian" class="geqian_input" bindinput='bindinput_geqian' disabled='{{geqian_css}}' placeholder='限20字以内' catchtap='none'></textarea>
+          <view catchtap="change_geqian" class="xiugai_clk">{{change_text}}</view>
+        </view>
+        <view class="huo_zan" style="color:{{text_color}}" wx:if="{{roading_success}}">获赞数:{{msgall.zansum}}</view>
+        <view class="huo_zan" style="color:{{text_color}}" wx:else>
+           <wux-spin wux-class="spin" />
+        </view>
+      </view>
+    </view>
+  </view>
+  <!------------------------------------------------------------header-->
+  <view class="midder">
+    <view class="midder_top">
+       <view class="chenghao">
+        <view class="chenghao_text">称号</view>
+        <image class="chenghao_icon" src="{{msgall.chenghao}}" wx:if="{{roading_success}}"></image>
+        <wux-spin wux-class="spin" class="chenghao_icon" wx:else/>
+      </view>
+      <view class="zuopin">
+        <view class="zuopin_text">代表作品</view>
+        <block wx:if="{{roading_success}}">
+        <view class="zuopin_con zuo_color" wx:if="{{zuopinji.sites.length!=0}}">{{zuopinji.sites}}</view>
+        <view class="zuopin_con zuo_color1" wx:else>
+          <wux-icon type="md-book" size='25' color='#999999'/>
+          快去创作吧
+        </view>
+        </block>
+        <wux-spin wux-class="spin" wx:else/>
+      </view>
+    </view>
+     <view class="midder_bottom">
+     </view>
+  </view>
+  <!---------------------------------------------------midder-->
+  <view class="footer">
+      <view class="storytime nav_footer" catchtap="storyfunc">
+        <image src="{{msgall.chenghao}}" class="img_footer"></image>
+        故事生涯
+      </view>
+      <view class="message nav_footer" catchtap="msgfunc">
+          <view wx:if="{{msg_ico>0}}" class="msg_icon">{{msg_ico}}</view>
+          <!--<view class="msg_icon">99</view>-->
+          <image src="{{msgall.chenghao}}" class="img_footer"></image>
+        消息通知
+      </view>
+  </view>
+</view>

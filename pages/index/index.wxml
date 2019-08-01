@@ -1,0 +1,18 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="userinfo">
+  <view class="logo_wai">
+      <image class="logo"></image>
+      <text>我是你爹</text>
+  </view>
+    <view class="antn_wai">
+        <view class="btn_wai">
+        <view class="btn_bck" animation="{{btn_ani}}" wx:if="{{!denglume}}"></view>
+        <view class="btn_bck1" wx:elif="{{denglume}}"></view>
+        <view class="btn_font" wx:if="{{!denglume}}">登陆</view>
+        <view class="btn_font" wx:elif="{{denglume}}" catchtap="bindViewTap">已登陆</view>
+        <button  class="btn" wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInFo"></button>
+        </view>
+    </view>
+  </view>
+</view>
